@@ -1,0 +1,32 @@
+name: Expo Publish simon.co to github pages
+on:
+    push:
+        branches:
+            - production
+jobs:
+    publish:
+        name: Install and publish
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: SpicyPizza/create-envfile@v1
+              with:
+                  envkey_FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
+                  file_name: .env
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+            - uses: expo/expo-github-action@v5
+              with:
+                  expo-version: 3.x
+                  expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+                  expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+                  expo-cache: true
+            - run: yarn install
+            - run: expo publish
+            - run: yarn predeploy
+            - uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./web-build
+                  cname: www.simon.co
