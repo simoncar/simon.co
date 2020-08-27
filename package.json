@@ -9,8 +9,8 @@
     "eject": "expo eject",
     "test": "jest --watchAll",
     "ci": "jest",
-	"deploy": "gh-pages -d web-build",
-	"predeploy": "bash build.sh"
+    "deploy": "gh-pages -d web-build",
+    "predeploy": "bash build.sh"
   },
   "jest": {
     "preset": "jest-expo"
